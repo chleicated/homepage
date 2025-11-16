@@ -1,23 +1,24 @@
 <template>
   <div class="mb-4 grid grid-cols-4 gap-4">
- 
     <div class="col-span-3">
       <p>
         Hi I'm <b>Chle</b>
         <span
           class="ms-1 inline-flex items-center rounded-full bg-surface0 px-2 py-1 text-xs font-medium"
-          >they/them</span
         >
-        and I'm from Spain.
-        Welcome to my site. I'm a developer. I usually use PHP, React and Vue. I know some other languages like Lua, Rust, Typescript and Go.
-        <span class="text-overlay0">(usually i am drunk)</span> for most
-        of the time.
+          they/them
+        </span>
+        and I'm from Spain. Welcome to my site. I'm a developer. I usually
+        use PHP, React and Vue. I know some other languages like Lua, Rust,
+        Typescript and Go.
+        <span class="text-overlay0">(usually I am drunk)</span> for most of
+        the time.
       </p>
-   
     </div>
   </div>
 
   <div class="flex flex-row flex-wrap gap-4">
+    <!-- Email Infobox -->
     <Infobox class="col-span-3 flex flex-row items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -35,6 +36,8 @@
       </svg>
       hello@chle.wtf
     </Infobox>
+
+    <!-- GitHub Infobox -->
     <NuxtLink to="https://github.com/chleicated" target="_blank">
       <Infobox
         class="col-span-3 flex flex-row items-center transition-colors duration-300 ease-in-out hover:bg-mantle"
@@ -61,23 +64,23 @@
         github
       </Infobox>
     </NuxtLink>
+
+    <!-- Twitter/X Infobox -->
     <NuxtLink to="https://x.com/chleicated" target="_blank">
-    <Infobox
-  class="col-span-3 flex flex-row items-center transition-colors duration-300 ease-in-out hover:bg-mantle"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    width="20"
-    height="20"
-    class="me-1 fill-text"
-  >
-    <path
-      class="fill-inherit"
-      d="M18.244 2.25h3.308l-7.227 8.26 8.5 11.24h-6.637l-5.195-6.833-5.944 6.833H1.75l7.73-8.88-8.164-10.62h6.772l4.703 6.223 5.453-6.223Zm-1.161 17.52h1.833L7.084 4.597H5.117l11.966 15.173Z"
-    />
-  </svg>
-</Infobox>
+      <Infobox
+        class="col-span-3 flex flex-row items-center transition-colors duration-300 ease-in-out hover:bg-mantle"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          class="me-1 fill-text"
+        >
+          <path
+            class="fill-inherit"
+            d="M18.244 2.25h3.308l-7.227 8.26 8.5 11.24h-6.637l-5.195-6.833-5.944 6.833H1.75l7.73-8.88-8.164-10.62h6.772l4.703 6.223 5.453-6.223Zm-1.161 17.52h1.833L7.084 4.597H5.117l11.966 15.173Z"
+          />
         </svg>
         twitter
       </Infobox>

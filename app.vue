@@ -29,8 +29,7 @@
                 class="fill-inherit"
               />
             </svg>
-  
-          </span>
+          </NuxtLink>
         </div>
 
         <NuxtPage />

@@ -4,15 +4,55 @@
 
 @layer base {
   body {
-    @apply bg-crust;
+    @apply bg-crust text-text antialiased;
   }
 
+  /* Slightly smoother typography across the site */
   * {
-    @apply text-text;
+    @apply text-text selection:bg-overlay2/40 selection:text-text;
+  }
+
+  /* Improve headings a bit */
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight;
   }
 }
 
+/* Crisp but not over-sharpened images */
 .image-crisp {
   image-rendering: crisp-edges;
   image-rendering: -webkit-optimize-contrast;
+}
+
+/* --- Tweaks --- */
+
+/* Subtle card styling for containers */
+.card {
+  @apply rounded-xl border border-overlay2/40 bg-crust/80 shadow-md backdrop-blur-sm;
+}
+
+/* Softer inner spacing */
+.section {
+  @apply p-6 md:p-8;
+}
+
+/* Improved link hover feel */
+a {
+  @apply transition-colors duration-200;
+}
+a:hover {
+  @apply text-overlay2;
+}
+
+/* Smooth spacing between elements */
+.stack > * + * {
+  @apply mt-4;
+}
+
+/* Slight button polish (if you use buttons later) */
+.btn {
+  @apply rounded-lg px-4 py-2 border border-overlay2/40 bg-base transition;
+}
+.btn:hover {
+  @apply bg-surface0 border-overlay2;
 }

@@ -1,18 +1,16 @@
 <template>
+  <!-- Added ref and inline styles for dragging position -->
   <div 
     id="wrapper" 
     ref="wrapperRef"
-    :style="{ top: position.y + 'px', left: position.x + 'px', transform: 'none' }"
+    :style="{ left: position.x + 'px', top: position.y + 'px' }"
+    @mousedown="startDrag"
+    @touchstart="startDrag"
   >
     <div id="main">
       <div class="inner">
         <div id="window" class="container default">
-          <div 
-            class="wrapper" 
-            id="wrapper2"
-            @mousedown="startDrag"
-            @touchstart="startDrag"
-          >
+          <div class="wrapper" id="wrapper2">
             <div class="inner">
               <h2 id="windowGreetings">Greetings!</h2>
               <p id="windowText">
@@ -42,36 +40,42 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 
 const wrapperRef = ref(null)
+const position = reactive({ x: 0, y: 0 })
+const dragStart = reactive({ x: 0, y: 0 })
 const isDragging = ref(false)
-const position = ref({ x: 0, y: 0 })
-const dragStart = ref({ x: 0, y: 0 })
 
-onMounted(() => {
-  if (typeof window !== 'undefined') {
-    position.value = {
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2
-    }
-  }
-})
+const clampPosition = (x, y) => {
+  if (!wrapperRef.value) return { x, y }
+  
+  const rect = wrapperRef.value.getBoundingClientRect()
+  const windowWidth = window.innerWidth
+  const windowHeight = window.innerHeight
+  
+
+
+  const minVisible = 50
+  
+  const clampedX = Math.max(
+    -rect.width + minVisible,
+    Math.min(x, windowWidth - minVisible)
+  )
+  const clampedY = Math.max(
+    -rect.height + minVisible,
+    Math.min(y, windowHeight - minVisible)
+  )
+  
+  return { x: clampedX, y: clampedY }
+}
 
 const startDrag = (e) => {
   isDragging.value = true
   const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX
   const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY
-  
-  dragStart.value = {
-    x: clientX - position.value.x,
-    y: clientY - position.value.y
-  }
-  
-  document.addEventListener('mousemove', onDrag)
-  document.addEventListener('mouseup', stopDrag)
-  document.addEventListener('touchmove', onDrag)
-  document.addEventListener('touchend', stopDrag)
+  dragStart.x = clientX - position.x
+  dragStart.y = clientY - position.y
 }
 
 const onDrag = (e) => {
@@ -81,21 +85,32 @@ const onDrag = (e) => {
   const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX
   const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY
   
-  position.value = {
-    x: clientX - dragStart.value.x,
-    y: clientY - dragStart.value.y
-  }
+  const newX = clientX - dragStart.x
+  const newY = clientY - dragStart.y
+  
+  const clamped = clampPosition(newX, newY)
+  position.x = clamped.x
+  position.y = clamped.y
 }
 
 const stopDrag = () => {
   isDragging.value = false
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
-  document.removeEventListener('touchmove', onDrag)
-  document.removeEventListener('touchend', stopDrag)
 }
 
+onMounted(() => {
+  window.addEventListener('mousemove', onDrag)
+  window.addEventListener('mouseup', stopDrag)
+  window.addEventListener('touchmove', onDrag, { passive: false })
+  window.addEventListener('touchend', stopDrag)
+})
+
 onUnmounted(() => {
+  window.removeEventListener('mousemove', onDrag)
+  window.removeEventListener('mouseup', stopDrag)
+  window.removeEventListener('touchmove', onDrag)
+  window.removeEventListener('touchend', stopDrag)
+})
+</script>
   document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', stopDrag)
   document.removeEventListener('touchmove', onDrag)

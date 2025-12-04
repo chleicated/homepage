@@ -1,6 +1,4 @@
-import { defineNuxtConfig } from "nuxt"
-
-export default defineNuxtConfig({
+export default {
   compatibilityDate: "2024-11-01",
   devtools: { enabled: false },
   app: {
@@ -25,4 +23,4 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/main.css"],
-})
+}

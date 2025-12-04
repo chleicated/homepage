@@ -1,5 +1,4 @@
 <template>
-  <!-- Added ref and inline styles for dragging position -->
   <div 
     id="wrapper" 
     ref="wrapperRef"
@@ -54,8 +53,6 @@ const clampPosition = (x, y) => {
   const windowWidth = window.innerWidth
   const windowHeight = window.innerHeight
   
-
-
   const minVisible = 50
   
   const clampedX = Math.max(
@@ -96,6 +93,25 @@ const onDrag = (e) => {
 const stopDrag = () => {
   isDragging.value = false
 }
+
+onMounted(() => {
+  window.addEventListener('mousemove', onDrag)
+  window.addEventListener('mouseup', stopDrag)
+  window.addEventListener('touchmove', onDrag, { passive: false })
+  window.addEventListener('touchend', stopDrag)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', onDrag)
+  window.removeEventListener('mouseup', stopDrag)
+  window.removeEventListener('touchmove', onDrag)
+  window.removeEventListener('touchend', stopDrag)
+})
+</script>
+
+<style scoped>
+/* Component styles handled by global CSS */
+</style>
 
 onMounted(() => {
   window.addEventListener('mousemove', onDrag)

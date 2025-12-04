@@ -13,23 +13,24 @@
             <div class="inner">
               <h2 id="windowGreetings">Greetings!</h2>
               <p id="windowText">
-                <span class="p">
-                  Hi, I'm Guevara (also known as Chle) - a insane developer from Spain.
-                  Over few years I have been developing some random shit on internet.
-                </span>
-                <span class="p">
-                  I am fluent in PHP and Javascript/Typescript. I have got some experience
-                  with React, Vue and SQL. I can do bit of Go and Lua too, sometimes rust
-                  although they're not on my list.
-                </span>
-              </p>
-              <p id="windowText">
-                <span class="p">
-                  I am mostly working on random projects, you can mostly find them at
-                  <a href="https://github.com/me-at-the-labs"><mark>Chle Labs</mark></a>.
-                  If you want to contact me, my contact list is below.
-                </span>
-              </p>
+  <span class="p">
+    Hi, I'm Guevara (also known as Chle) - a insane developer from Spain.
+    Over few years I have been developing some random shit on internet.
+  </span>
+  <span class="p">
+    I am fluent in PHP and Javascript/Typescript. I have got some experience
+    with React, Vue and SQL. I can do bit of Go and Lua too, sometimes rust
+    although they're not on my list.
+  </span>
+</p>
+
+<p id="windowText">
+  <span class="p">
+    I am mostly working on random projects, you can mostly find them at
+    <a href="https://github.com/me-at-the-labs"><mark>Chle Labs</mark></a>.
+    If you want to contact me, my contact list is below.
+  </span>
+</p>
             </div>
           </div>
         </div>

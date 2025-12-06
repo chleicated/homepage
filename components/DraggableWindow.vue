@@ -3,8 +3,6 @@
     id="wrapper"
     ref="wrapperRef"
     :style="{ left: position.x + 'px', top: position.y + 'px' }"
-    @mousedown="startDrag"
-    @touchstart="startDrag"
   >
     <div id="main">
       <div class="inner">
@@ -44,59 +42,34 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
 const wrapperRef = ref(null)
 const position = reactive({ x: 0, y: 0 })
 
-// Keep these even though dragging is disabled
-const dragStart = reactive({ x: 0, y: 0 })
-const isDragging = ref(false)
-
-const startDrag = () => {
-  // dragging disabled
-}
-
-const clampPosition = (x, y) => {
-  if (!wrapperRef.value) return { x, y }
-
-  const rect = wrapperRef.value.getBoundingClientRect()
-  const windowWidth = window.innerWidth
-  const windowHeight = window.innerHeight
-
-  const minVisible = 50
-
-  const clampedX = Math.max(
-    -rect.width + minVisible,
-    Math.min(x, windowWidth - minVisible)
-  )
-  const clampedY = Math.max(
-    -rect.height + minVisible,
-    Math.min(y, windowHeight - minVisible)
-  )
-
-  return { x: clampedX, y: clampedY }
-}
-
-const onDrag = (e) => {
-  // Drag disabled
-  return
-}
-
-const stopDrag = () => {
-  // Drag disabled
-  isDragging.value = false
-}
-
+// CENTER THE WINDOW ON FIRST LOAD
 onMounted(() => {
-  // Keep listeners to avoid errors, but dragging won’t run
-  window.addEventListener('mousemove', onDrag)
-  window.addEventListener('mouseup', stopDrag)
-  window.addEventListener('touchmove', onDrag, { passive: false })
-  window.addEventListener('touchend', stopDrag)
-})
+  const el = wrapperRef.value
+  if (!el) return
 
-onUnmounted(() => {
+  const rect = el.getBoundingClientRect()
+  const centerX = window.innerWidth / 2 - rect.width / 2
+  const centerY = window.innerHeight / 2 - rect.height / 2
+
+  position.x = centerX
+  position.y = centerY
+})
+</script>
+
+<style scoped>
+/* Disable dragging */
+#wrapper {
+  position: absolute;
+  user-select: none;
+  touch-action: none;
+  -webkit-user-drag: none;
+}
+</style>onUnmounted(() => {
   window.removeEventListener('mousemove', onDrag)
   window.removeEventListener('mouseup', stopDrag)
   window.removeEventListener('touchmove', onDrag)

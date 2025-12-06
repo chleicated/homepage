@@ -47,7 +47,6 @@ import { ref, reactive, onMounted } from 'vue'
 const wrapperRef = ref(null)
 const position = reactive({ x: 0, y: 0 })
 
-// CENTER THE WINDOW ON FIRST LOAD
 onMounted(() => {
   const el = wrapperRef.value
   if (!el) return
@@ -62,41 +61,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Disable dragging */
 #wrapper {
   position: absolute;
   user-select: none;
   touch-action: none;
   -webkit-user-drag: none;
 }
-</style>onUnmounted(() => {
-  window.removeEventListener('mousemove', onDrag)
-  window.removeEventListener('mouseup', stopDrag)
-  window.removeEventListener('touchmove', onDrag)
-  window.removeEventListener('touchend', stopDrag)
-})
-</script>
-
-<style scoped>
-/* Prevent all dragging */
-#wrapper {
-  user-select: none;
-  touch-action: none;
-  -webkit-user-drag: none;
-}
-</style>  isDragging.value = false
-}
-
-onMounted(() => {
-  window.addEventListener('mousemove', onDrag)
-  window.addEventListener('mouseup', stopDrag)
-  window.addEventListener('touchmove', onDrag, { passive: false })
-  window.addEventListener('touchend', stopDrag)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('mousemove', onDrag)
-  window.removeEventListener('mouseup', stopDrag)
+</style>  window.removeEventListener('mouseup', stopDrag)
   window.removeEventListener('touchmove', onDrag)
   window.removeEventListener('touchend', stopDrag)
 })

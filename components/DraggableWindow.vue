@@ -48,8 +48,14 @@ import { ref, reactive, onMounted, onUnmounted } from 'vue'
 
 const wrapperRef = ref(null)
 const position = reactive({ x: 0, y: 0 })
+
+// Keep these even though dragging is disabled
 const dragStart = reactive({ x: 0, y: 0 })
 const isDragging = ref(false)
+
+const startDrag = () => {
+  // dragging disabled
+}
 
 const clampPosition = (x, y) => {
   if (!wrapperRef.value) return { x, y }
@@ -72,31 +78,40 @@ const clampPosition = (x, y) => {
   return { x: clampedX, y: clampedY }
 }
 
-const startDrag = (e) => {
-  isDragging.value = true
-  const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX
-  const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY
-  dragStart.x = clientX - position.x
-  dragStart.y = clientY - position.y
-}
-
 const onDrag = (e) => {
-  if (!isDragging.value) return
-  e.preventDefault()
-
-  const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX
-  const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY
-
-  const newX = clientX - dragStart.x
-  const newY = clientY - dragStart.y
-
-  const clamped = clampPosition(newX, newY)
-  position.x = clamped.x
-  position.y = clamped.y
+  // Drag disabled
+  return
 }
 
 const stopDrag = () => {
+  // Drag disabled
   isDragging.value = false
+}
+
+onMounted(() => {
+  // Keep listeners to avoid errors, but dragging won’t run
+  window.addEventListener('mousemove', onDrag)
+  window.addEventListener('mouseup', stopDrag)
+  window.addEventListener('touchmove', onDrag, { passive: false })
+  window.addEventListener('touchend', stopDrag)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', onDrag)
+  window.removeEventListener('mouseup', stopDrag)
+  window.removeEventListener('touchmove', onDrag)
+  window.removeEventListener('touchend', stopDrag)
+})
+</script>
+
+<style scoped>
+/* Prevent all dragging */
+#wrapper {
+  user-select: none;
+  touch-action: none;
+  -webkit-user-drag: none;
+}
+</style>  isDragging.value = false
 }
 
 onMounted(() => {

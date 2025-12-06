@@ -1,5 +1,11 @@
 <template>
-  <div id="wrapper" ref="wrapperRef">
+  <div
+    id="wrapper"
+    ref="wrapperRef"
+    :style="{ left: position.x + 'px', top: position.y + 'px', cursor: dragging ? 'grabbing' : 'grab' }"
+    @mousedown="startDrag"
+    @touchstart="startDrag"
+  >
     <div id="window" class="container default">
       <div class="wrapper" id="wrapper2">
         <div class="inner">
@@ -33,25 +39,59 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, reactive, onMounted, onBeforeUnmount } from "vue";
 
-const wrapperRef = ref(null)
+const wrapperRef = ref(null);
+const position = reactive({ x: 0, y: 0 });
+let dragging = ref(false);
+let offset = { x: 0, y: 0 };
+
+function centerWindow() {
+  const el = wrapperRef.value;
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  position.x = window.innerWidth / 2 - rect.width / 2;
+  position.y = window.innerHeight / 2 - rect.height / 2;
+}
+
+function startDrag(e) {
+  dragging.value = true;
+  offset.x = e.clientX - position.x;
+  offset.y = e.clientY - position.y;
+  window.addEventListener("mousemove", onDrag);
+  window.addEventListener("mouseup", stopDrag);
+}
+
+function onDrag(e) {
+  if (!dragging.value) return;
+  position.x = e.clientX - offset.x;
+  position.y = e.clientY - offset.y;
+}
+
+function stopDrag() {
+  dragging.value = false;
+  window.removeEventListener("mousemove", onDrag);
+  window.removeEventListener("mouseup", stopDrag);
+}
+
+onMounted(() => {
+  centerWindow();
+  window.addEventListener("resize", centerWindow);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", centerWindow);
+});
 </script>
 
 <style scoped>
-/* Fullscreen flex container to center the window */
 #wrapper {
-  position: fixed;
-  inset: 0; /* top:0; bottom:0; left:0; right:0; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
   user-select: none;
   touch-action: none;
   -webkit-user-drag: none;
 }
 
-/* Optional: limit window width for small screens */
 #window {
   max-width: 90%;
   max-height: 90%;

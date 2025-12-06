@@ -67,12 +67,4 @@ onMounted(() => {
   touch-action: none;
   -webkit-user-drag: none;
 }
-</style>  window.removeEventListener('mouseup', stopDrag)
-  window.removeEventListener('touchmove', onDrag)
-  window.removeEventListener('touchend', stopDrag)
-})
-</script>
-
-<style scoped>
-/* component-specific styles here if needed */
 </style>

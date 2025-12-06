@@ -42,21 +42,23 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, nextTick } from "vue"
 
 const wrapperRef = ref(null)
 const position = reactive({ x: 0, y: 0 })
 
 onMounted(() => {
-  const el = wrapperRef.value
-  if (!el) return
+  nextTick(() => {
+    const el = wrapperRef.value
+    if (!el) return
 
-  const rect = el.getBoundingClientRect()
-  const centerX = window.innerWidth / 2 - rect.width / 2
-  const centerY = window.innerHeight / 2 - rect.height / 2
+    const rect = el.getBoundingClientRect()
+    const centerX = window.innerWidth / 2 - rect.width / 2
+    const centerY = window.innerHeight / 2 - rect.height / 2
 
-  position.x = centerX
-  position.y = centerY
+    position.x = centerX
+    position.y = centerY
+  })
 })
 </script>
 
